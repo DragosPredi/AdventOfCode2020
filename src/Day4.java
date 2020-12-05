@@ -23,23 +23,24 @@ public class Day4 {
         map.put("cid", false);
         return map;
     }
-    static boolean isValid(HashMap<String, Boolean> map){
-        if(!map.get("byr")){
+
+    static boolean isValid(HashMap<String, Boolean> map) {
+        if (!map.get("byr")) {
             return false;
         }
-        if(!map.get("iyr")){
+        if (!map.get("iyr")) {
             return false;
         }
-        if(!map.get("eyr")){
+        if (!map.get("eyr")) {
             return false;
         }
-        if(!map.get("hgt")){
+        if (!map.get("hgt")) {
             return false;
         }
-        if(!map.get("hcl")){
+        if (!map.get("hcl")) {
             return false;
         }
-        if(!map.get("ecl")){
+        if (!map.get("ecl")) {
             return false;
         }
         return map.get("pid");
@@ -50,83 +51,82 @@ public class Day4 {
 
         ArrayList<String> list = (ArrayList<String>) reader.lines().collect(Collectors.toList());
         HashMap<String, Boolean> map = initMap();
-        List<String> eyeColors =  Arrays.asList("amb", "blu", "brn", "gry", "grn", "hzl", "oth");
+        List<String> eyeColors = Arrays.asList("amb", "blu", "brn", "gry", "grn", "hzl", "oth");
         int passCont = 0;
-        for(String el : list){
-            if(el.isBlank()){
-                if(isValid(map)){
+        for (String el : list) {
+            if (el.isBlank()) {
+                if (isValid(map)) {
                     passCont++;
                 }
                 map = initMap();
             } else {
-                String [] credentials = el.split(" ");
-                for(String cred : credentials){
+                String[] credentials = el.split(" ");
+                for (String cred : credentials) {
                     String key = cred.split(":")[0];
                     String value = cred.split(":")[1];
                     boolean ok = true;
-                    if(key.equals("byr")){
+                    if (key.equals("byr")) {
                         int val = Integer.parseInt(value);
-                        if(val < 1920 || val > 2002)
+                        if (val < 1920 || val > 2002)
                             ok = false;
                     }
-                    if(key.equals("iyr")){
+                    if (key.equals("iyr")) {
                         int val = Integer.parseInt(value);
-                        if(val < 2010 || val > 2020)
+                        if (val < 2010 || val > 2020)
                             ok = false;
                     }
-                    if(key.equals("eyr")){
+                    if (key.equals("eyr")) {
                         int val = Integer.parseInt(value);
-                        if(val < 2020 || val > 2030)
+                        if (val < 2020 || val > 2030)
                             ok = false;
                     }
-                    if(key.equals("hgt")){
+                    if (key.equals("hgt")) {
                         Pattern p = Pattern.compile("\\d+");
                         Matcher m = p.matcher(value);
                         int val = 0;
-                        if(m.find())
+                        if (m.find())
                             val = Integer.parseInt(m.group());
-                        if(value.contains("in")){
-                            if(val < 59 || val > 76) {
+                        if (value.contains("in")) {
+                            if (val < 59 || val > 76) {
                                 ok = false;
                             }
-                        }
-                        else if(value.contains("cm")) {
+                        } else if (value.contains("cm")) {
                             if (val < 150 || val > 193) {
                                 ok = false;
                             }
                         }
                     }
-                    if(key.equals("hcl")){
+                    if (key.equals("hcl")) {
                         char[] seq = value.toCharArray();
-                        for(int i =  1 ; i < seq.length ; i++){
+                        for (int i = 1; i < seq.length; i++) {
                             if ((seq[i] < 'a' || seq[i] > 'f') &&
                                     seq[i] < '0' && seq[i] > '9') {
                                 ok = false;
                                 break;
                             }
                         }
-                        if(seq[0] != '#')
+                        if (seq[0] != '#')
                             ok = false;
                     }
-                    if(key.equals("ecl")){
-                        if(!eyeColors.contains(value)){
+                    if (key.equals("ecl")) {
+                        if (!eyeColors.contains(value)) {
                             ok = false;
                         }
                     }
-                    if(key.equals("pid")){
+                    if (key.equals("pid")) {
                         Pattern p = Pattern.compile("\\d+");
                         Matcher m = p.matcher(value);
-                        if(m.find())
-                            if(m.group().length() != 9)
+                        if (m.find())
+                            if (m.group().length() != 9)
                                 ok = false;
                     }
-                    System.out.println(key + " " + " " + value + " " +ok);
+                    System.out.println(key + " " + " " + value + " " + ok);
                     map.put(key, ok);
                 }
             }
         }
-        if(isValid(map))
+        if (isValid(map))
             //passCont++;
-        System.out.println(passCont);
+            System.out.println(passCont);
     }
 }
